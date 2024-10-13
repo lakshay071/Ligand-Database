@@ -1,0 +1,12 @@
+<?php
+header("Content-type:image/png");
+$id=$_GET['id'];
+$connect=mysql_connect("localhost","root","");
+$db=mysql_select_db("ligand_structure_db") or die("Db no exist");
+
+$sql="select structure_data from structures where ligand_id=$id";
+$query=mysql_query($sql);
+$row=mysql_fetch_array($query);
+$pic=$row['structure_data'];
+echo $pic;
+?>

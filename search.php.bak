@@ -1,0 +1,40 @@
+<?php
+//Prerequesite: First get the search term from the 
+//HTML form using $_GET or $_POST variables
+$searchterm= $_POST['keywords'];
+
+echo "Search term : $searchterm";
+
+//Step1: Connection to backend database
+$conn=mysqli_connect("localhost","root","","ligand_structure_db");
+
+//Step2: Write the SQL queries to fetch 
+//the data based on the search term from the HTML page
+$sql="Select * from Ligands,structures where ligands.ligand_id= structures.ligand_id 
+and  ligands.description like '%$searchterm%'";
+$query=mysqli_query($conn,$sql);
+echo "<table border=1>
+<tr><td>Ligand ID</td><td>Ligand Name</td><td>Formula</td>
+<td>Description</td><td>Molecular Weight</td><td>Structure ID</td>
+<td>Structure Data</td></tr>";
+
+while ($row=mysqli_fetch_array($query))
+{
+	$lid=$row['ligand_id'];
+	$ln=$row['ligand_name'];
+	$mf=$row['formula'];
+	$de=$row['description'];
+	$mw=$row['molecular_weight'];
+	$sid=$row['structure_id'];
+	
+
+	echo "<tr><td>$lid</td><td>$ln</td><td>$mf</td><td>$de</td><td>$mw</td>
+	<td>$sid</td><td><img src=ligandstructure.php?id=$lid width=30%></td></tr>";
+}
+echo "</table";
+//Step3: Display the Match the results 
+//in a well formatted HTML Table  
+
+
+
+?>
